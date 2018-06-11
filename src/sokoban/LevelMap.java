@@ -14,7 +14,7 @@ public class LevelMap extends CurrentLevel{
     private static final String NUM_OF_WALLS = "number_of_walls";
    
     public boolean levelFinished;
-    
+    public boolean isPaused;
     public DrawMap panel;
     public int mapWidth, mapHeight;
     public int elementWidth,elementHeight;
@@ -183,7 +183,7 @@ public class LevelMap extends CurrentLevel{
     public void moveAvatar(String direction){
         setChestsNeighbors(); 
         this.player.move(direction);
-        panel.repaint();
+        panel.run();
         player.setNeighbors(this);   
     }
     
@@ -194,7 +194,7 @@ public class LevelMap extends CurrentLevel{
     public void moveAvatarWithPull(String direction){
         setChestsNeighbors(); 
         this.player.moveWithPull(direction);
-        panel.repaint();
+        panel.run();
         player.setNeighbors(this);   
     }   
     
@@ -238,15 +238,17 @@ public class LevelMap extends CurrentLevel{
         openFile(i);
         createMap();
         panel = new DrawMap(this);
+        panel.run();
         this.add(panel);
         panel.setFocusable(true);
     }
     
-    /**
-     * Repaints the map.
-     */
-    public void updateMap(){
-        panel.repaint();
+    public void pause(){
+        this.isPaused=true;
+    }
+    
+    public void continuePlaying(){
+        this.isPaused=false;
     }
     
 }   

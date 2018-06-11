@@ -13,7 +13,8 @@ import javax.swing.*;
  */
 public class Game extends JFrame{
     public boolean preformingAction, pullOn;
-    Dimension windowDims=new Dimension(700,700);;
+    Dimension windowDims=new Dimension(700,700);
+    boolean isPaused;
     Counter timer;
     Lives lives;
     Points points;
@@ -30,7 +31,7 @@ public class Game extends JFrame{
      * Constructor only calls other class functions 
      */
     public Game(){
-        
+        isPaused=false;
         createWindow();
         createComponents();
         layoutCreator();
@@ -41,7 +42,7 @@ public class Game extends JFrame{
      * Creates game window
      */
     private void createWindow(){
-        this.setMinimumSize(new Dimension(200,200));
+        this.setSize(windowDims);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Sokoban");
@@ -65,6 +66,7 @@ public class Game extends JFrame{
         
         pause.addActionListener(lForButtons);
         tryAgain.addActionListener(lForButtons);
+        resume.addActionListener(lForButtons);
         lForMove=new ListenForMove(gameControl.levelMap,this);
         lForActions=new ListenForKeys(this);
         pause.addKeyListener(lForMove);
@@ -245,8 +247,11 @@ public class Game extends JFrame{
         @Override
         public void actionPerformed(ActionEvent ae) {
             if(ae.getSource()==pause){ 
-               
+                   game.isPaused=true;
+                   game.timer.stop();
+                   game.gameControl.levelMap.pause();
             }
+ 
             else if(ae.getSource()==tryAgain){
                 game.gameControl.levelMap.restartMap();
                 game.lives.liveLoss();
@@ -260,7 +265,10 @@ public class Game extends JFrame{
 
             }
             else if(ae.getSource()==resume){
-
+                game.isPaused=false;
+                game.timer.continueCounting();
+                game.gameControl.levelMap.continuePlaying();
+                game.gameControl.levelMap.panel.repaint();
             }
         }
         
@@ -271,6 +279,7 @@ public class Game extends JFrame{
      * Key listener for the moves in the game.
      */
     private class ListenForMove implements KeyListener{
+        
         LevelMap map;
         Game game;
                 
@@ -282,9 +291,10 @@ public class Game extends JFrame{
         public void keyTyped(KeyEvent ke) {
             
         }
-
+        
         @Override
         public void keyPressed(KeyEvent ke) {
+            if(!game.isPaused){
             if(game.pullOn){
                 if(ke.getKeyCode()==KeyEvent.VK_DOWN){
                     map.moveAvatarWithPull("down");
@@ -350,7 +360,8 @@ public class Game extends JFrame{
                 }
             }
         }
-
+        }
+        
         @Override
         public void keyReleased(KeyEvent ke) {
         }

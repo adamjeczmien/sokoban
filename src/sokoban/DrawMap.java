@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  * Class used to draw game objects and map.
  * @author jeczm
  */
-public class DrawMap extends JPanel{
+public class DrawMap extends JPanel implements Runnable{
         LevelMap map;
         
         /**
@@ -16,9 +16,9 @@ public class DrawMap extends JPanel{
          * @param lm reference to current level map.
          */
         public DrawMap(LevelMap lm){
-            map=lm;    
+            map=lm;
             this.setFocusable(true);
-            this.setPreferredSize(new Dimension(lm.mapWidth*lm.elementHeight,lm.mapHeight*lm.elementHeight));
+            this.setPreferredSize(new Dimension(map.mapWidth*map.elementHeight,map.mapHeight*map.elementHeight));
         }
         
         /**
@@ -31,6 +31,13 @@ public class DrawMap extends JPanel{
             map.drawEndpoints(g);
             map.drawChests(g);
             map.drawAvatar(g);
+            if(!map.isPaused)
             this.repaint();
             }
+
+    @Override
+    public void run() {   
+            this.repaint();   
+    }
+    
         }

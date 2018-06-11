@@ -16,6 +16,7 @@ public class Counter extends JComponent  {
     JLabel message;
     Properties gameOptions,levelProperties;
     Timer count= new Timer(); 
+    private boolean isPaused;
     
     /**
      * Constructor creates message about the time and displays it.
@@ -34,9 +35,11 @@ public class Counter extends JComponent  {
     TimerTask task = new TimerTask(){
         @Override
         public void run(){
+           if(!isPaused){
            if(startingTimeValue!=0)
            startingTimeValue--;
-           refresh();
+           }
+           refresh();  
         }
     };
     /**
@@ -93,7 +96,11 @@ public class Counter extends JComponent  {
     
     
     public void stop(){
-        
+        this.isPaused=true;
+    }
+    
+    public void continueCounting(){
+        this.isPaused=false;
     }
     
 }

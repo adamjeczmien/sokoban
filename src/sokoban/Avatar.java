@@ -37,6 +37,7 @@ public class Avatar extends GameObject{
      * Chooses witch way avatar should go
      * @param direction String defining direction
     */
+
     public void move(String direction){
         if (direction.equals("left"))
         {
@@ -56,6 +57,7 @@ public class Avatar extends GameObject{
         }
         
     }
+
     /**
      * Chooses witch way avatar should go if pull option is on
      * @param direction String defining direction
