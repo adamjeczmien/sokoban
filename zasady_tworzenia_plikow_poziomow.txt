@@ -1,0 +1,40 @@
+1. Pola do edycji(wszystkie wype³niane liczbami typu int):
+	(a)level_Number=
+	(B)Time_For_Level=
+	(C)map_width=
+	(D)map_height=
+	(E)wall_width=
+	(F)wall_height=
+	(G)chest_width=
+	(H)chest_height=
+	(I)endpoint_width=
+	(J)endpoint_height=
+	(K)avatar_width=
+	(L)avatar_height=
+	(M)number_of_chests=
+	(N)number_of_walls=
+	(O)chest_$_x=
+	(P)chest_$_y=
+	(R)wall_$_x=
+	(S)wall_$_y=
+	(T)avatar_x=
+	(U)avatar_y=
+	(W)endpoint_$_x=
+	(X)endpoint_$_y=
+
+2. Plik powinien nosiæ nazwê level~.properties gdzie ~ jest wielkoœci¹ przypisan¹ polu (A).
+3. (B) podajemy w sekundach.
+4. map_height oraz map_width musz¹ byæ wielokrotnoœciami odpowiednio wall_height i wall_width!!!
+5. W miejscach &_$ wymagana jest liczba int z zakresu (1,number_of_&). & jest komponentem.
+6. Wszystkie wielkoœci poza (A) i (B) s¹ podane w pikselach.
+7. Aplikacja automatycznie rysuje obramowanie wokó³ planszy. Ramka ta wchodzi w sk³ad map_Dim, a wiêc do zak³adanych rozmiarów mapy nale¿y dodaæ 2x wall_dim.
+8. Wszystkie komponenty poza endpoints powinny byæ tych samych wymiarów.
+9. Endpoints s¹ o po³owê mniejsze od pozosta³ych komponentów.
+10. Jako pierwsz¹ linijkê podajmy datê ostatniej modyfikacji w formacie:
+	#Dow Mon DD HH:MM:SS CEST YYYY
+	Dow - Day of the week 
+	Mon - Month
+	DD day;HH:MM:SS- time; YYYY - year
+	przyk³adowo:
+	#Tue Apr 03 19:28:36 CEST 2018
+		
