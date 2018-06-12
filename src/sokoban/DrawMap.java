@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  * Class used to draw game objects and map.
  * @author jeczm
  */
-public class DrawMap extends JPanel implements Runnable{
+public class DrawMap extends JPanel{
         LevelMap map;
         
         /**
@@ -22,8 +22,9 @@ public class DrawMap extends JPanel implements Runnable{
         }
         
         /**
-         * Calls draw methods of components
-         */
+        * Calls draw methods of components
+        * @param g
+        */
         @Override
         public void paintComponent(Graphics g){
             map.bg.draw(g);
@@ -32,12 +33,6 @@ public class DrawMap extends JPanel implements Runnable{
             map.drawChests(g);
             map.drawAvatar(g);
             if(!map.isPaused)
-            this.repaint();
-            }
-
-    @Override
-    public void run() {   
-            this.repaint();   
-    }
-    
+                this.repaint();
         }
+}

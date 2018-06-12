@@ -102,7 +102,11 @@ public class Background extends JComponent{
             g.drawRect(i*elementWidth, j*elementHeight, elementWidth, elementHeight);
             }
     }
-    
+    /**
+     * Used to resize whole background as well as single field.
+     * @param h new element height
+     * @param w new element width
+     */
     public void resizeBackground(int h, int w){
         elementHeight=h;
         elementWidth=w;

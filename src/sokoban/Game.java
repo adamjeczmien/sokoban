@@ -12,7 +12,7 @@ import javax.swing.*;
  * @author jeczm
  */
 public class Game extends JFrame{
-    public boolean preformingAction, pullOn;
+    public boolean pullOn;
     Dimension windowDims=new Dimension(700,700);
     boolean isPaused;
     Counter timer;
@@ -36,7 +36,7 @@ public class Game extends JFrame{
         createComponents();
         layoutCreator();
         makeVisible();
-        
+        this.setSize(windowDims);
     }
     /**
      * Creates game window
@@ -130,6 +130,7 @@ public class Game extends JFrame{
         gameControl.levelMap.panel.grabFocus();
         pause.grabFocus();
         tryAgain.grabFocus();
+        
         this.pack();
         ListenForWindow lForWindow= new ListenForWindow(this);
         this.addComponentListener(lForWindow);
@@ -205,6 +206,9 @@ public class Game extends JFrame{
         this.dispose();
     }
     
+    /**
+     * Method called, when window has been resized 
+     */
     public void tryToResize(){
             Dimension dim=this.getSize();
             float height=dim.height-121;
@@ -231,8 +235,27 @@ public class Game extends JFrame{
                 tempEnd.resizeElement(newElementHeight,newElementWidth);
             }
         }
-  
     
+    /**
+     * Method used to stop animations and timer. What is more this method 
+     * forbbids moves preformed by players by setting 'isPaused' flag to true.
+     */
+    public void pauseGame(){
+        this.isPaused=true;
+        this.timer.stop();
+        this.gameControl.levelMap.pause();
+    }
+    
+    /**
+     * Method used to continue animations and counting of the timer.
+     * Sets 'isPaused' to false.
+     */
+    public void continuePlaying(){
+        this.isPaused=false;
+        this.timer.continueCounting();
+        this.gameControl.levelMap.continuePlaying();
+        this.gameControl.levelMap.panel.repaint();
+    }
     
     
     /**
@@ -247,28 +270,23 @@ public class Game extends JFrame{
         @Override
         public void actionPerformed(ActionEvent ae) {
             if(ae.getSource()==pause){ 
-                   game.isPaused=true;
-                   game.timer.stop();
-                   game.gameControl.levelMap.pause();
+                   game.pauseGame();
             }
  
             else if(ae.getSource()==tryAgain){
                 game.gameControl.levelMap.restartMap();
+                game.tryToResize();
                 game.lives.liveLoss();
                 if(game.lives.isGameOver){
                     gameLayout.removeAll();
                     gameControl.gameFinished(points,game);
-                    gameLayout.add(gameControl.end);
-                    game.setLocationRelativeTo(null);
+                    gameLayout.add(gameControl.end);  
                 }
                 game.lives.panel.repaint();
 
             }
             else if(ae.getSource()==resume){
-                game.isPaused=false;
-                game.timer.continueCounting();
-                game.gameControl.levelMap.continuePlaying();
-                game.gameControl.levelMap.panel.repaint();
+                game.continuePlaying();
             }
         }
         
@@ -369,12 +387,14 @@ public class Game extends JFrame{
         public void setNewMap(LevelMap m){
             map=m;
         }
+        
         private void endLevel(){
             gameControl.levelFinished(points,lives,timer,lvlNum);
                     if(gameControl.nextLevel!=0){
                         currentLevel++;
                         createComponents(currentLevel);
                         layoutCreator();
+                        game.setSize(windowDims);
                         }
                     else{
                         endGame();
@@ -405,15 +425,24 @@ public class Game extends JFrame{
 
         @Override
         public void keyPressed(KeyEvent ke) {
-            game.pullOn=true;
+            if(ke.getKeyCode()==KeyEvent.VK_L)
+                game.pullOn=true;
+            else if(ke.getKeyCode()==KeyEvent.VK_P)
+                game.pauseGame();
+            else if(ke.getKeyCode()==KeyEvent.VK_R)
+                game.continuePlaying();
         }
 
         @Override
         public void keyReleased(KeyEvent ke) {
+            if(ke.getKeyCode()==KeyEvent.VK_L)
             game.pullOn=false;
         } 
     }
     
+    /**
+     * Window listener used to gather info about window resizing
+     */
     private class ListenForWindow implements ComponentListener{
         Game game;
         

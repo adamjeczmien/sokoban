@@ -20,12 +20,12 @@ public class LevelMap extends CurrentLevel{
     public int elementWidth,elementHeight;
     public int numOfWalls, numOfChests;
     
-    protected List<Chest> chestList;
-    protected List<Wall> wallList;
-    protected List<Endpoint> endpointList;
+    List<Chest> chestList;
+    List<Wall> wallList;
+    List<Endpoint> endpointList;
     
-    public Avatar player;
-    public Background bg;
+    Avatar player;
+    Background bg;
     
     /**
      * Used to define dimensions of the object
@@ -183,7 +183,7 @@ public class LevelMap extends CurrentLevel{
     public void moveAvatar(String direction){
         setChestsNeighbors(); 
         this.player.move(direction);
-        panel.run();
+        panel.repaint();
         player.setNeighbors(this);   
     }
     
@@ -194,7 +194,7 @@ public class LevelMap extends CurrentLevel{
     public void moveAvatarWithPull(String direction){
         setChestsNeighbors(); 
         this.player.moveWithPull(direction);
-        panel.run();
+        panel.repaint();
         player.setNeighbors(this);   
     }   
     
@@ -209,7 +209,6 @@ public class LevelMap extends CurrentLevel{
             if(tempChest.isOnEndpoint)
                 licz++;
         }
-     
         if(numOfChests==licz)
            this.levelFinished= true;
         else
@@ -223,6 +222,7 @@ public class LevelMap extends CurrentLevel{
      */
     public void restartMap(){
         createMap();
+        panel = null;
         panel = new DrawMap(this);
         this.add(panel);
         panel.setFocusable(true);
@@ -238,15 +238,20 @@ public class LevelMap extends CurrentLevel{
         openFile(i);
         createMap();
         panel = new DrawMap(this);
-        panel.run();
+        panel.repaint();
         this.add(panel);
         panel.setFocusable(true);
     }
     
+    /**
+     * Sets 'isPaused' flag true
+     */
     public void pause(){
         this.isPaused=true;
     }
-    
+    /**
+     * Sets 'isPaused' flag false
+     */
     public void continuePlaying(){
         this.isPaused=false;
     }
