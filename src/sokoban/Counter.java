@@ -89,16 +89,22 @@ public class Counter extends JComponent  {
     public int getTime(){
         return this.startingTimeValue;
     }
-    
+    /**
+     * Set counter to the starting point
+     */
     public void restart(){
         startingTimeValue=loadTime();
     }
     
-    
+    /**
+     * Stops the counter
+     */
     public void stop(){
         this.isPaused=true;
     }
-    
+    /**
+     * Continues counting
+     */
     public void continueCounting(){
         this.isPaused=false;
     }

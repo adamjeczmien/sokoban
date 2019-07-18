@@ -13,6 +13,9 @@ import javax.swing.JComponent;
  * @author jeczm
  */
 public class CurrentLevel extends JComponent{
+    private static final String OPTIONS = "options.properties";
+    private static final String DEFAULTNAME = "level";
+    private static final String EXTENTION = ".properties";
     Properties levelProperties,gameOptions;
     File currentFile,optionFile;
     GameControler control;
@@ -22,7 +25,7 @@ public class CurrentLevel extends JComponent{
      * @param i number of level.
      */
     protected void openFile(int i){
-        currentFile = new File("level"+i+".properties");
+        currentFile = new File(DEFAULTNAME+i+EXTENTION);
         levelProperties = new Properties();
         InputStream is;
         try {
@@ -38,7 +41,7 @@ public class CurrentLevel extends JComponent{
      * Opens options file and loads properties.
      */
     private void openOptions(){
-        optionFile = new File("options.properties");
+        optionFile = new File(OPTIONS);
         gameOptions = new Properties();
         InputStream is;
         try {

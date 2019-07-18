@@ -45,6 +45,11 @@ public class Wall extends GameObject{
             g.setColor(Color.black);
             g.drawRect((int)Math.round(x*width), (int)Math.round(y*height), width, height);
     }
+    /**
+     * Changes Dimensions of the element
+     * @param h new height
+     * @param w new width 
+     */
      public void resizeElement(int h, int w){
         height=h;
         width=w;

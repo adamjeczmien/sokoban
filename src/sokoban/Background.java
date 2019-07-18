@@ -16,6 +16,8 @@ public class Background extends JComponent{
     private static final String MAP_WIDTH = "map_width";
     private static final String MAP_HEIGHT = "map_height";
     private static final String PICTURE = "wall.jpg";
+    private static final String ELEMENTWIDTH = "element_width";
+    private static final String ELEMENTHEIGHT = "element_height";
     public int startingElementWidth,startingElementHeight;
     public int elementWidth,elementHeight;
     Properties levelProperties;
@@ -46,8 +48,8 @@ public class Background extends JComponent{
         mapSize=new Dimension();
         mapSize.width=Integer.parseInt(levelProperties.getProperty(MAP_WIDTH));
         mapSize.height=Integer.parseInt(levelProperties.getProperty(MAP_HEIGHT));
-        startingElementWidth=Integer.parseInt(levelProperties.getProperty("element_width"));
-        startingElementHeight=Integer.parseInt(levelProperties.getProperty("element_height"));
+        startingElementWidth=Integer.parseInt(levelProperties.getProperty(ELEMENTWIDTH));
+        startingElementHeight=Integer.parseInt(levelProperties.getProperty(ELEMENTHEIGHT));
         elementWidth=startingElementWidth;
         elementHeight=startingElementHeight;
         img=img.getScaledInstance(elementWidth, elementHeight, 0);

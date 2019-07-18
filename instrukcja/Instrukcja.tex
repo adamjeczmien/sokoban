@@ -1,0 +1,86 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{varioref}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{float}
+
+\title{Programowanie Zdarzeniowe\\
+		Gra Sokoban\\
+		INSTRUKCJA UŻYTKOWNIKA}
+\author{Adam Jęczmień
+		\and
+		Jakub Lewandowski}
+\date{\today}
+
+\begin{document}
+\maketitle
+\newpage
+\section{Cel i zasady gry}
+Gracz ma za zadanie umieścić wszystkie skrzynki na wyznaczonych polach. W tym celu musi popychać skrzynki. Etap kończy się w momencie, gdy wszystkie skrzynki są na polach końcowych, bądź gdy gracz wykorzysta wszystkie swoje szanse na przejście poziomu. Za przejście co najmniej 3 etapów pod rząd bez straty szansy gracz otrzymuje bonifikatę w postaci dodatkowej szansy na następne poziomu.
+\subsection{Poziomy trudności}
+Gra posiada 3 poziomy trudności, które różnią się dostępną ilością podejść do pojedynczego etapu.
+\begin{itemize}
+\item Easy $\rightarrow$ 3 podejścia
+\item Medium $\rightarrow$ 2 podejścia
+\item Hard $\rightarrow$ 1 podejście
+\end{itemize}
+Gra jest podzielona na 10 etapów zróżnicowanych pod względem trudności i ułożenia map.
+\section{Sterowanie}
+Gracz ma do dyspozycji sterowanie za pomocą strzałek kierunkowych. Dodatkowo może używać przycisków 'p' aby zatrzymać grę oraz 'r' aby wznowić rozgrywkę. Elementem ułatwiającym grę jest możliwość pociągnięcia skrzynki. Tą opcję można wykorzystać po naciśnięciu i przytrzymaniu przycisku 'L'.
+
+\section{Zasady punktacji}
+Punkty są przeliczane po zakończeniu każdego poziomu. Gracz może sprawdzić swój aktualny wynik punktowy w prawym górnym rogu ekranu gry. Punkty są liczone na podstawie 4 parametrów:
+\begin{itemize}
+\item Mnożnik wynikający z poziomu trudności gry
+\item Ilość pozostałych żyć
+\item Pozostały czas
+\item Numer poziomu
+\end{itemize}
+Mnożnik poziomu trudności jest następujący:
+\begin{itemize}
+\item Hard $\rightarrow$ M=8
+\item Medium $\rightarrow$ M=3
+\item Easy $\rightarrow$ M=1
+\end{itemize}
+Wzór przekształcający parametry na punkty:
+\begin{equation}
+score = M\cdot LifesLeft + TimeLeft \cdot LevelNumber
+\end{equation}
+\section{Lista najlepszych wyników}
+Program przechowuje listę 10 najlepszych wyników, które są dostępne dla gracza. Domyślnie lista jest wypełniona wynikami od 0 do 100 ze skokiem 10 punktów.
+\section{Okno menu}
+W oknie menu gracz może:
+\begin{itemize}
+\item Przejść do okna gry i rozpocząć rozgrywkę
+\item Wyświetlić listę liderów
+\item Dostosować grę za pomocą dostępnego panelu opcji
+\end{itemize}
+\subsection{Panel opcji}
+W tym panelu gracz może ustawić poziom od którego chce zacząć, oraz poziom trudności
+\section{Okno gry}
+Podczas rozgrywki gracz ma możliwość ze skorzystania z funkcji pauzy oraz może rozpocząć poziom od nowa naciskając przycisk 'Try Again'. Naciśnięcie tego przycisku powoduje powrót do początkowej konfiguracji ustawienia skrzynek oraz gracza, przy jednoczesnej utracie jednej szansy. Dodatkowo gracz ma do dyspozycji menu bar na którym znajdują się opcje:
+\begin{itemize}
+\item Menu
+\item Help
+\end{itemize}
+Po wybraniu 'menu' mamy możliwość przejścia do głównego menu gry, lub restartu rozgrywki. Restart powoduje powrót do poziomu początkowego. Użycie którejkolwiek z tych opcji skutkuje utratą bieżącej rozgrywki.
+
+W sekcji 'help' gracz ma do dyspozycji skrócone zasady rozgrywki oraz podpowiedzi sterowania.
+
+\section{Zakończenie rozgrywki}
+Gra kończy się w momencie, gdy gracz zakończy ostatni etap, bądź wykorzysta wszystkie szanse. Jeżeli gracz uzyskał wynik pozwalający na uplasowanie się na liście najlepszych rezultatów, program zapyta gracza o nick, dodatkowo pokazując na jakim miejscu zostałby zapisany. Gracz ma możliwość wpisania na listę lub może pominąć ten element. Po wpisaniu, pominięciu wpisu na listę lub nieuzyskaniu wystarczającej ilości punktów aby dopisać się na listę, mamy do dyspozycji ekran, który wyświetla ilość zdobytych punktów, pozwala na grę od początku, wyświetlenie listy najlepszych wyników, powrót do głównego menu lub opuszczenie programu.
+
+
+
+
+
+
+\end{document}

@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class Chest extends GameObject{
     private static final String PICTURE = "chest.png";
-    private static final String PICTURE2 = "chest2.png";
+    private static final String PICTUREONENDPOINT = "chest2.png";
     private GameObject upNeighbor;
     private GameObject downNeighbor;
     private GameObject leftNeighbor;
@@ -140,23 +140,25 @@ public class Chest extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                p.changeLeft();
-                changeLeft();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
-                    } 
-                catch (Exception ex) {} 
-                if(Math.round(10*x)==Math.round(tempX)){
-                    x=Math.round(x);
-                    p.x=Math.round(p.x);
-                    checkIfOnEndpoint(map);
-                    break;
+                while(true){
+                    p.changeLeft();
+                    changeLeft();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
+                        } 
+                    catch (Exception ex) {} 
+                    if(Math.round(10*x)==Math.round(tempX)){
+                        x=Math.round(x);
+                        p.x=Math.round(p.x);
+                        checkIfOnEndpoint(map);
+                        break;
+                    }
                 }
-            }
-        } 
-    });
+                p.isRunning=false;
+            } 
+            });
+            p.isRunning=true;
            animationThread.start();  
        }
     }
@@ -175,24 +177,26 @@ public class Chest extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                p.changeUp();
-                changeUp();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
-                    } 
-                catch (Exception ex) {} 
-                if(Math.round(10*y)==Math.round(tempY)){
-                    y=Math.round(y);
-                    p.y=Math.round(p.y);
-                    checkIfOnEndpoint(map);
-                    break;
+                while(true){
+                    p.changeUp();
+                    changeUp();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
+                        } 
+                    catch (Exception ex) {} 
+                    if(Math.round(10*y)==Math.round(tempY)){
+                        y=Math.round(y);
+                        p.y=Math.round(p.y);
+                        checkIfOnEndpoint(map);
+                        break;
+                    }
                 }
-            }
-        } 
-    });
-           animationThread.start();
+                p.isRunning=false;
+            } 
+            });
+            p.isRunning=true;
+            animationThread.start();
        }
     }
     /**
@@ -210,23 +214,25 @@ public class Chest extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                p.changeRight();
-                changeRight();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
-                    } 
-                catch (Exception ex) {} 
-                if(Math.round(10*x)==Math.round(tempX)){
-                    x=Math.round(x);
-                    p.x=Math.round(p.x);
-                    checkIfOnEndpoint(map);
-                    break;
+                while(true){
+                    p.changeRight();
+                    changeRight();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
+                        } 
+                    catch (Exception ex) {} 
+                    if(Math.round(10*x)==Math.round(tempX)){
+                        x=Math.round(x);
+                        p.x=Math.round(p.x);
+                        checkIfOnEndpoint(map);
+                       break;
+                    }
                 }
-            }
-        } 
-    });
+            p.isRunning=false;
+            } 
+            });
+            p.isRunning=true;
            animationThread.start(); 
        }
     }
@@ -245,24 +251,26 @@ public class Chest extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                p.changeDown();
-                changeDown();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
-                    } 
-                catch (Exception ex) {} 
-                if(Math.round(10*y)==Math.round(tempY)){
-                    y=Math.round(y);
-                    p.y=Math.round(p.y);
-                    checkIfOnEndpoint(map);
-                    break;
+                while(true){
+                    p.changeDown();
+                    changeDown();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
+                        } 
+                    catch (Exception ex) {} 
+                    if(Math.round(10*y)==Math.round(tempY)){
+                        y=Math.round(y);
+                        p.y=Math.round(p.y);
+                        checkIfOnEndpoint(map);
+                        break;
+                    }
                 }
-            }
-        } 
-    });
-           animationThread.start();
+            p.isRunning=false;
+            } 
+            });
+            p.isRunning=true;
+            animationThread.start();
        }
     }
     
@@ -298,7 +306,7 @@ public class Chest extends GameObject{
     public void addNotify() {
         super.addNotify();
         img = Toolkit.getDefaultToolkit().getImage(PICTURE);
-        imgEnd= Toolkit.getDefaultToolkit().getImage(PICTURE2);
+        imgEnd= Toolkit.getDefaultToolkit().getImage(PICTUREONENDPOINT);
         img=img.getScaledInstance(width, height, 0);
         imgEnd=imgEnd.getScaledInstance(width, height, 0);
     }
@@ -319,6 +327,11 @@ public class Chest extends GameObject{
             g.drawRect((int)Math.round(x*width), (int)Math.round(y*height), width, height);
             }
     }
+    /**
+     * Changes Dimensions of the element
+     * @param h new height
+     * @param w new width 
+     */
      public void resizeElement(int h, int w){
         height=h;
         width=w;

@@ -20,11 +20,12 @@ import javax.swing.*;
  * @author jeczm
  */
 public class FinishGame extends JPanel{
+        private static final String NUMBEROFLEADERS="number_of_leaders";
+        private static final String LEADERBOARDFILE="leaderboard.properties";
         Game game;
         JPanel writeLeaders,endOfGame;
         JButton save,noThanks,exit,playAgain,returnToMain, leaders;
         JTextField newName;
-        private static final String NUMBEROFLEADERS="number_of_leaders";
         File leadersFile;
         Properties leaderboard;
         private List<Leader> leadersList;
@@ -38,7 +39,7 @@ public class FinishGame extends JPanel{
          * Imports leaderboard from the file.
          */
         private void importLeaderboard(){
-        leadersFile=new File("leaderboard.properties");
+        leadersFile=new File(LEADERBOARDFILE);
         leaderboard=new Properties();
         InputStream is;
         try {
@@ -101,7 +102,7 @@ public class FinishGame extends JPanel{
             playAgain.addActionListener(lForAction);
             JLabel label=new JLabel();
             JLabel label2=new JLabel();
-            label.setText("THE GAME HAS FINISHED");
+            label.setText("GAME OVER");
             label2.setText("Your score is "+this.points);
             endOfGame.setLayout(new GridLayout(0,1,10,10));
             endOfGame.add(label);
@@ -120,7 +121,7 @@ public class FinishGame extends JPanel{
          */
         private void makeWriteIntoLeaders(){
             JLabel label1=new JLabel();
-            label1.setText("THE GAME HAS FINISHED");
+            label1.setText("GAME OVER");
             JLabel label2=new JLabel();
             label2.setText("Your score is "+this.points);
             JLabel label3=new JLabel();

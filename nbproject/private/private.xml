@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/LevelMap.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/MainMenu.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Sokoban.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Avatar.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Game.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/CurrentLevel.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/DrawMap.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Wall.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Endpoint.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/MenuControler.java</file>
-            <file>file:/C:/Users/jeczm/Documents/Programming/Sokoban/src/sokoban/Background.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

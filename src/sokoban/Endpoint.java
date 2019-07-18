@@ -60,6 +60,11 @@ public class Endpoint extends GameObject{
             g.drawImage(img, (int)Math.round(x*width), (int)Math.round(y*height), this);
 
     }
+    /**
+     * Changes Dimensions of the element
+     * @param h new height
+     * @param w new width 
+     */
     public void resizeElement(int h, int w){
         height=h;
         width=w;

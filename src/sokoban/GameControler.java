@@ -57,6 +57,7 @@ public class GameControler {
      * @param lvl Reference on LevelLabel object.
      */
     public void levelFinished(Points p, Lives l, Counter c, LevelLabel lvl){
+        
         passLives(l,p);
         passTime(c,p);
         p.setLevelNumber(lvl.levelNumber);

@@ -5,18 +5,23 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Properties;
 
-
 /**
  * Class, wich is responsible for player avatar
  * @author jeczm
  */
 public class Avatar extends GameObject{
     private static final String PICTURE = "avatar.gif";
+    private static final String LEFT = "left";
+    private static final String RIGHT = "right";
+    private static final String UP = "up";
+    private static final String DOWN = "down";
     private GameObject upNeighbor;
     private GameObject downNeighbor;
     private GameObject leftNeighbor;
     private GameObject rightNeighbor;
     private LevelMap map;
+    boolean isRunning;
+   
     
     Image img;
     /**
@@ -33,28 +38,33 @@ public class Avatar extends GameObject{
         y=someY;
         map=m;
     }
+    
+    
     /**
      * Chooses witch way avatar should go
      * @param direction String defining direction
     */
-
     public void move(String direction){
-        if (direction.equals("left"))
-        {
-            this.moveLeft();  
+        if(isRunning){
+            return;
         }
-        else if(direction.equals("up"))
-        {
-            this.moveUp();
+        switch (direction) {
+            case LEFT:
+                this.moveLeft();
+                break;
+            case UP:
+                this.moveUp();
+                break;
+            case DOWN:
+                this.moveDown();
+                break;
+            case RIGHT:
+                this.moveRight();
+                break;
+            default:
+                break;
         }
-        else if(direction.equals("down"))
-        {
-            this.moveDown();
-        }
-        else if(direction.equals("right"))
-        {
-            this.moveRight();
-        }
+        
         
     }
 
@@ -63,21 +73,24 @@ public class Avatar extends GameObject{
      * @param direction String defining direction
     */
     public void moveWithPull(String direction){
-        if (direction.equals("left"))
-        {
-            this.moveLeftWithPull();  
+        if(isRunning){
+            return;
         }
-        else if(direction.equals("up"))
-        {
-            this.moveUpWithPull();
-        }
-        else if(direction.equals("down"))
-        {
-            this.moveDownWithPull();
-        }
-        else if(direction.equals("right"))
-        {
-            this.moveRightWithPull();
+        switch (direction) {
+            case LEFT:
+                this.moveLeftWithPull();
+                break;
+            case UP:
+                this.moveUpWithPull();
+                break;
+            case DOWN:
+                this.moveDownWithPull();
+                break;
+            case RIGHT:
+                this.moveRightWithPull();
+                break;
+            default:
+                break;
         }
         
     }
@@ -87,7 +100,8 @@ public class Avatar extends GameObject{
     /**
      * Used to move avatar up and creates animation Thread
      */
-    public synchronized void moveUp(){
+    public void moveUp(){
+        
         if(this.upNeighbor instanceof Wall){
                 
         }
@@ -110,16 +124,17 @@ public class Avatar extends GameObject{
                        break;
                     }
                     }
+                    isRunning = false;
                 } 
             });
-           
+           isRunning=true;
            animationThread.start();
         }
     }
     /**
      * Used to move avatar left and creates animation Thread
      */
-    public synchronized void moveLeft(){
+    public void moveLeft(){
         if(this.leftNeighbor instanceof Wall){
                 
         }
@@ -131,28 +146,30 @@ public class Avatar extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                changeLeft();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
+                while(true){
+                    changeLeft();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
                     } 
-                catch (Exception ex) {} 
+                    catch (Exception ex) {} 
                 
-                if(Math.round(10*x)==Math.round(tempX)){
-                    x=Math.round(x);
-                    break;
+                    if(Math.round(10*x)==Math.round(tempX)){
+                        x=Math.round(x);
+                        break;
+                    }
                 }
-            }
-        } 
-    });
+                isRunning=false;
+            } 
+            });
+           isRunning=true;
            animationThread.start();          
         }
     }
     /**
      * Used to move avatar down and creates animation Thread
      */
-    public synchronized void moveDown(){
+    public void moveDown(){
         if(this.downNeighbor instanceof Wall){
                 
         }
@@ -175,15 +192,17 @@ public class Avatar extends GameObject{
                         break;
                     }
                     }
-                } 
+                 isRunning=false;
+            } 
             });
+           isRunning=true;
            animationThread.start();
         }
     }
     /**
      * Used to move avatar right and creates animation Thread
      */
-    public synchronized void moveRight(){
+    public void moveRight(){
         if(this.rightNeighbor instanceof Wall){
                 
         }
@@ -206,8 +225,10 @@ public class Avatar extends GameObject{
                        break;
                     }
                     }
-                } 
+                isRunning=false;
+            } 
             });
+           isRunning=true;
            
            animationThread.start();
         }
@@ -217,7 +238,7 @@ public class Avatar extends GameObject{
     /**
      * Used to move avatar up (with the pull option on) and creates animation Thread
      */
-    public synchronized void moveUpWithPull(){
+    public void moveUpWithPull(){
         if(this.upNeighbor instanceof Wall||this.upNeighbor instanceof Chest){       
         }
         else if(this.downNeighbor instanceof Chest){
@@ -239,8 +260,10 @@ public class Avatar extends GameObject{
                        break;
                     }
                     }
-                } 
+                isRunning=false;
+            } 
             });
+           isRunning=true;
            
            animationThread.start();
         }
@@ -248,7 +271,7 @@ public class Avatar extends GameObject{
     /**
      * Used to move avatar left (with the pull option on) and creates animation Thread
      */
-    public synchronized void moveLeftWithPull(){
+    public void moveLeftWithPull(){
         if(this.leftNeighbor instanceof Wall||this.leftNeighbor instanceof Chest){
         }
         else if(this.rightNeighbor instanceof Chest){
@@ -259,28 +282,30 @@ public class Avatar extends GameObject{
  
             Thread animationThread = new Thread(new Runnable() {
             public void run() {
-            while(true){
-                changeLeft();
-                map.panel.repaint();
-                try {
-                    Thread.sleep(10);
-                    } 
-                catch (Exception ex) {} 
+                while(true){
+                    changeLeft();
+                    map.panel.repaint();
+                    try {
+                        Thread.sleep(10);
+                        } 
+                    catch (Exception ex) {} 
                 
-                if(Math.round(10*x)==Math.round(tempX)){
-                    x=Math.round(x);
-                    break;
+                    if(Math.round(10*x)==Math.round(tempX)){
+                        x=Math.round(x);
+                        break;
+                    }
                 }
-            }
-        } 
-    });
-           animationThread.start();          
+                isRunning=false;
+            } 
+            });
+            isRunning=true;
+            animationThread.start();          
         }
     }
     /**
      * Used to move avatar down (with the pull option on) and creates animation Thread
      */
-    public synchronized void moveDownWithPull(){
+    public void moveDownWithPull(){
         if(this.downNeighbor instanceof Wall||this.downNeighbor instanceof Chest){      
         }
         else if(this.upNeighbor instanceof Chest){
@@ -302,15 +327,17 @@ public class Avatar extends GameObject{
                         break;
                     }
                     }
-                } 
+                isRunning=false;
+            } 
             });
+           isRunning=true;
            animationThread.start();
         }
     }
     /**
      * Used to move avatar right (with the pull option on) and creates animation Thread
      */
-    public synchronized void moveRightWithPull(){
+    public void moveRightWithPull(){
         if(this.rightNeighbor instanceof Wall||this.rightNeighbor instanceof Chest){
                 
         }
@@ -333,10 +360,13 @@ public class Avatar extends GameObject{
                        break;
                     }
                     }
-                } 
+                isRunning=false;
+            } 
             });
+           isRunning=true;
            
            animationThread.start();
+           
         }
     }
     
@@ -449,6 +479,11 @@ public class Avatar extends GameObject{
     public final void draw(Graphics g){
             g.drawImage(img,(int)Math.round(x*width), (int)Math.round(y*height), this);
     }
+    /**
+     * Changes Dimensions of the element
+     * @param h new height
+     * @param w new width 
+     */
      public void resizeElement(int h, int w){
         height=h;
         width=w;

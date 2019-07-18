@@ -12,9 +12,8 @@ import javax.swing.*;
  * @author jeczm
  */
 public class Game extends JFrame{
-    public boolean pullOn;
-    Dimension windowDims=new Dimension(700,700);
-    boolean isPaused;
+    boolean pullOn, isPaused;
+    Dimension windowDims=new Dimension(800,800);
     Counter timer;
     Lives lives;
     Points points;
@@ -25,10 +24,10 @@ public class Game extends JFrame{
     JPanel gameLayout=new JPanel();
     ListenForMove lForMove;
     ListenForKeys lForActions;
-    int startLevel,currentLevel;
+    int startLevel,currentLevel,startingNumberOfLifes, LevelsWithoutLifeLoss;
     
     /**
-     * Constructor only calls other class functions 
+     * Constructor only calls other class methods 
      */
     public Game(){
         isPaused=false;
@@ -42,6 +41,7 @@ public class Game extends JFrame{
      * Creates game window
      */
     private void createWindow(){
+        this.setMinimumSize(new Dimension(200,200));
         this.setSize(windowDims);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,26 +77,30 @@ public class Game extends JFrame{
         tryAgain.addKeyListener(lForActions);
         resume.addKeyListener(lForActions);
         gameControl.levelMap.panel.addKeyListener(lForActions);
-        
+        this.startingNumberOfLifes=this.lives.numOfLives;
     }
     
     /**
      * Creates components of game window, of the level i
      * @param i number of level.
      */
-    private void createComponents(int i){  
+    public void createComponents(int i){  
         gameLayout.removeAll();
         gameControl=new GameControler(i);
         timer=new Counter(gameControl.levelMap.gameOptions,gameControl.levelMap.levelProperties);
         lives=new Lives(gameControl.levelMap.gameOptions);
         lvlNum=new LevelLabel(gameControl.levelMap.levelProperties);
         lForMove.setNewMap(gameControl.levelMap);
+        if(this.LevelsWithoutLifeLoss>=3){
+            this.lives.numOfLives++;
+            this.lives.label.setText("Lives left: "+this.lives.numOfLives);
+        }
     }
     
     /**
      * Creates layout of window
      */
-    private void layoutCreator(){
+    public void layoutCreator(){
         JPanel upper=new JPanel();
         JPanel lower=new JPanel();
         JPanel center=new JPanel();
@@ -256,6 +260,16 @@ public class Game extends JFrame{
         this.gameControl.levelMap.continuePlaying();
         this.gameControl.levelMap.panel.repaint();
     }
+    /**
+     * Method which checks if player has made at least 3 levels without life loss 
+     * and if so inceraces the number of lives by 1.
+     */
+    void tryToIncreaseLives() {
+        if(this.startingNumberOfLifes<=this.lives.numOfLives){
+                this.LevelsWithoutLifeLoss++; 
+            }
+            else{this.LevelsWithoutLifeLoss=0;}
+    }
     
     
     /**
@@ -291,123 +305,6 @@ public class Game extends JFrame{
         }
         
        
-    }
-    
-    /**
-     * Key listener for the moves in the game.
-     */
-    private class ListenForMove implements KeyListener{
-        
-        LevelMap map;
-        Game game;
-                
-         public ListenForMove(LevelMap m,Game g){
-             map=m;
-             game=g;
-         }   
-        @Override
-        public void keyTyped(KeyEvent ke) {
-            
-        }
-        
-        @Override
-        public void keyPressed(KeyEvent ke) {
-            if(!game.isPaused){
-            if(game.pullOn){
-                if(ke.getKeyCode()==KeyEvent.VK_DOWN){
-                    map.moveAvatarWithPull("down");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                         endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_UP){
-                    map.moveAvatarWithPull("up");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                        endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_LEFT){
-                    map.moveAvatarWithPull("left");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                         endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_RIGHT){
-                    map.moveAvatarWithPull("right");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                        endLevel();
-                    }
-                }
-                else{
-                }
-            }
-            else{
-                if(ke.getKeyCode()==KeyEvent.VK_DOWN){
-                    map.moveAvatar("down");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                         endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_UP){
-                    map.moveAvatar("up");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                        endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_LEFT){
-                    map.moveAvatar("left");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                         endLevel();
-                    }
-                }
-                else if(ke.getKeyCode()==KeyEvent.VK_RIGHT){
-                    map.moveAvatar("right");
-                    map.checkLevelFinished();
-                    if(map.levelFinished){
-                        endLevel();
-                    }
-                }
-                else{
-                }
-            }
-        }
-        }
-        
-        @Override
-        public void keyReleased(KeyEvent ke) {
-        }
-        
-        public void setNewMap(LevelMap m){
-            map=m;
-        }
-        
-        private void endLevel(){
-            gameControl.levelFinished(points,lives,timer,lvlNum);
-                    if(gameControl.nextLevel!=0){
-                        currentLevel++;
-                        createComponents(currentLevel);
-                        layoutCreator();
-                        game.setSize(windowDims);
-                        }
-                    else{
-                        endGame();
-                    }
-        }
-        
-        private void endGame(){
-            gameLayout.removeAll();
-            gameControl.gameFinished(points,game);
-            gameLayout.add(gameControl.end);
-            game.setLocationRelativeTo(null);
-        }
-        
     }
     
     /**
